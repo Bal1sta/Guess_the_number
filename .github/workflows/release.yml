@@ -1,13 +1,14 @@
-name: 'C++ CI'
+name: "C++ CI"
 
-on: 
+on:
   push:
     branches:
       - main
+  workflow_dispatch: # Добавлен ручной запуск workflow.
 
 jobs:
-  build_macos:
-    runs-on: macos-latest
+  build_and_release:
+    runs-on: ubuntu-latest # Можно заменить на macos-latest для MacOS.
     permissions: write-all
     steps:
       - name: Checkout code
@@ -16,76 +17,37 @@ jobs:
           submodules: true
       
       - name: Configure CMake
-        run: cmake . -DPATCH_VERSION=${{ github.run_number }} -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/install
+        run: |
+          cmake -S . -B build -DPATCH_VERSION=${{ github.run_number }} -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/install
       
       - name: Build and Install
-        run: cmake --build . --target install
-      
-      - name: Package with CPack
-        run: cpack -G ZIP
-      
-      - name: Check if package exists
-        run: ls package
-      
-      - name: Create Release (MacOS)
-        id: create_release_macos
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: macos-${{ github.run_number }}
-          release_name: Release ${{ github.run_number }} (MacOS)
-          draft: false
-          prerelease: false
-      
-      - name: Upload Release Asset (MacOS)
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release_macos.outputs.upload_url }}
-          asset_path: ./package/Guess_the_number-0.0.${{ github.run_number }}-Darwin.zip
-          asset_name: Guess_the_number-0.0.${{ github.run_number }}-Darwin.zip
-          asset_content_type: application/zip
+        run: cmake --build build --target install
 
-  build_ubuntu:
-    runs-on: ubuntu-latest
-    permissions: write-all
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          submodules: true
-      
-      - name: Configure CMake
-        run: cmake . -DPATCH_VERSION=${{ github.run_number }}
-      
-      - name: Build
-        run: cmake --build .
-      
       - name: Package with CPack
-        run: cpack -G ZIP
+        run: |
+          cd build
+          cpack -G ZIP
       
-      - name: Check if package exists
-        run: ls package
-      
-      - name: Create Release (Ubuntu)
-        id: create_release_ubuntu
+      - name: Check packaged files
+        run: ls build
+
+      - name: Create Release
+        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ubuntu-${{ github.run_number }}
-          release_name: Release ${{ github.run_number }} (Ubuntu)
+          tag_name: v${{ github.run_number }}
+          release_name: "Release ${{ github.run_number }}"
           draft: false
           prerelease: false
-      
-      - name: Upload Release Asset (Ubuntu)
+
+      - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release_ubuntu.outputs.upload_url }}
-          asset_path: ./package/Guess_the_number-0.0.${{ github.run_number }}-Linux.zip
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/Guess_the_number-0.0.${{ github.run_number }}-Linux.zip
           asset_name: Guess_the_number-0.0.${{ github.run_number }}-Linux.zip
           asset_content_type: application/zip

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-# Установка версии проекта и номера патча.
+# Установка версии проекта.
 set(PATCH_VERSION "1" CACHE STRING "Patch version")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 project(Guess_the_number VERSION ${PROJECT_VERSION})
