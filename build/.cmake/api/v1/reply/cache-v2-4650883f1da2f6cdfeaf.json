@@ -903,7 +903,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "lab6"
+			"value" : "Guess_the_number"
 		},
 		{
 			"name" : "CMAKE_PROJECT_VERSION",
@@ -1400,6 +1400,42 @@
 			],
 			"type" : "INTERNAL",
 			"value" : "[C:/msys64/mingw64/lib/cmake/Boost-1.86.0/BoostConfig.cmake][cfound components: unit_test_framework ][v1.86.0()]"
+		},
+		{
+			"name" : "Guess_the_number_BINARY_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "E:/Projects/Guess_the_number/build"
+		},
+		{
+			"name" : "Guess_the_number_IS_TOP_LEVEL",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "ON"
+		},
+		{
+			"name" : "Guess_the_number_SOURCE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "E:/Projects/Guess_the_number"
 		},
 		{
 			"name" : "PATCH_VERSION",
