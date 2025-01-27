@@ -51,7 +51,7 @@ build cmake_object_order_depends_target_Guess_the_number: phony || .
 
 build CMakeFiles/Guess_the_number.dir/main.cpp.obj: CXX_COMPILER__Guess_the_number_unscanned_Debug E$:/Projects/Guess_the_number/main.cpp || cmake_object_order_depends_target_Guess_the_number
   DEP_FILE = CMakeFiles\Guess_the_number.dir\main.cpp.obj.d
-  FLAGS = -std=c++17 -g
+  FLAGS = -g
   OBJECT_DIR = CMakeFiles\Guess_the_number.dir
   OBJECT_FILE_DIR = CMakeFiles\Guess_the_number.dir
 
@@ -64,7 +64,7 @@ build CMakeFiles/Guess_the_number.dir/main.cpp.obj: CXX_COMPILER__Guess_the_numb
 # Link the executable Guess_the_number.exe
 
 build Guess_the_number.exe: CXX_EXECUTABLE_LINKER__Guess_the_number_Debug CMakeFiles/Guess_the_number.dir/main.cpp.obj
-  FLAGS = -std=c++17 -g
+  FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Guess_the_number.dir
   POST_BUILD = cd .

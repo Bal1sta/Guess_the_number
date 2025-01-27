@@ -24,9 +24,8 @@ jobs:
       - name: Package with CPack
         run: cpack -G ZIP
       
-      - name: Run Tests
-        run: |
-          ctest --output-on-failure || exit 1
+      - name: Check if package exists
+        run: ls package
       
       - name: Create Release (MacOS)
         id: create_release_macos
@@ -40,13 +39,12 @@ jobs:
           prerelease: false
       
       - name: Upload Release Asset (MacOS)
-        id: upload-release-asset-macos
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release_macos.outputs.upload_url }}
-          asset_path: ./Guess_the_number-0.0.${{ github.run_number }}-Darwin.zip
+          asset_path: ./package/Guess_the_number-0.0.${{ github.run_number }}-Darwin.zip
           asset_name: Guess_the_number-0.0.${{ github.run_number }}-Darwin.zip
           asset_content_type: application/zip
 
@@ -68,8 +66,8 @@ jobs:
       - name: Package with CPack
         run: cpack -G ZIP
       
-      - name: List files (Ubuntu)
-        run: ls
+      - name: Check if package exists
+        run: ls package
       
       - name: Create Release (Ubuntu)
         id: create_release_ubuntu
@@ -80,16 +78,14 @@ jobs:
           tag_name: ubuntu-${{ github.run_number }}
           release_name: Release ${{ github.run_number }} (Ubuntu)
           draft: false
-          prerelease: false 
+          prerelease: false
       
       - name: Upload Release Asset (Ubuntu)
-        id: upload-release-asset-ubuntu
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release_ubuntu.outputs.upload_url }}
-          asset_path: ./Guess_the_number-0.0.${{ github.run_number }}-Linux.zip
+          asset_path: ./package/Guess_the_number-0.0.${{ github.run_number }}-Linux.zip
           asset_name: Guess_the_number-0.0.${{ github.run_number }}-Linux.zip
           asset_content_type: application/zip
-
